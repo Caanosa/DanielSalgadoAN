@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_3/page/alumno.dart';
 
 class PrimeraClase extends StatelessWidget{
   @override
@@ -21,6 +22,6 @@ class PrimeraClase extends StatelessWidget{
   
 }
 mostrarSegundaV(BuildContext context) {
-    Navigator.of(context).pushNamed("/SegundaPagina");
+    Navigator.of(context).pushNamed("/SegundaPagina" , arguments: Alumno('Daniel', 'Salgado'));
   }
 
