@@ -1,9 +1,11 @@
+import 'package:agenda_flutter/contactos.dart';
+import 'package:agenda_flutter/persona.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(Agenda());
 }
-
+ 
 
 class Agenda extends StatelessWidget {
   int contador = 0;
@@ -15,6 +17,10 @@ class Agenda extends StatelessWidget {
 
       return MaterialApp(
         title: 'Agenda',
+        routes: {
+        "/rutaPP" : (BuildContext context) => Contactos(),
+        },
+
         home: Scaffold(
           appBar: AppBar(
             title: Text('Agenda de contactos'),
@@ -25,20 +31,12 @@ class Agenda extends StatelessWidget {
             (BuildContext context, index) {
 
               final nombre = alumnos[index];
-              int count = 0;
 
               return ListTile(
                 title: Text(nombre),
                 leading: Icon(Icons.person),
                 onTap: () {
-                  print(nombre);
-                  if(name == nombre){
-                    contador++;
-                  }else{
-                    name = nombre;
-                    contador = 1;
-                  }
-
+                 mostrarSegundaV(context);
                   
                 },
               );
@@ -48,3 +46,8 @@ class Agenda extends StatelessWidget {
       );
   }
 }
+
+
+mostrarSegundaV(BuildContext context) {
+    Navigator.of(context).pushNamed("/rutaPP", arguments: Persona('Pedro', 12, 'pedro@gmail.com', '123456789'));
+  }
