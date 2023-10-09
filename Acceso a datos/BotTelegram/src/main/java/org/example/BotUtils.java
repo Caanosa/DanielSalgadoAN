@@ -27,6 +27,7 @@ public class BotUtils {
     static final int HTTP_CODE_OK = 200;
     static long offset = 0;
 
+
     /**
      * Método que invocará al API de Telegram para ver si hay peticiones de usuarios pendientesd de procesar
      */
@@ -85,13 +86,29 @@ public class BotUtils {
         long destinatario = peticion.getMessage().getFrom().getId();
         String texto = peticion.getMessage().getText();
 
-        // Crear el mensaje de envío
         Envio envio = new Envio();
         envio.setChat_id(destinatario);
-        envio.setText("Me has dicho : " + texto);
+
+        switch (texto) {
+            case "/ayuda":
+                envio.setText("/chiste --> Te puedo contar un chiste aleatorio.\n\n/notas --> Puedes escribir notas y guardalas.\n\n/festivos --> Te puedo decir los dias festivos del año.");
+                break;
+            case "/chiste":
+                break;
+
+            case "/notas":
+
+                break;
+
+            case "festivos":
+                break;
+        }
+        enviarMensaje(envio);
+        // Crear el mensaje de envío
+
 
         // Enviar mensaje
-        enviarMensaje(envio);
+
 
         // Nos quedamos con el último mensaje procesado
         offset = peticion.getUpdate_id() + 1;
@@ -132,4 +149,6 @@ public class BotUtils {
             System.out.println(LOG_ERROR_SOLICITUD + responseCode);
         }
     }
+
+    
 }
