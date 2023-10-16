@@ -2,13 +2,23 @@ package org.example;
 
 import com.google.gson.Gson;
 import org.example.entidades.Envio;
+import org.example.entidades.Festivos;
 import org.example.entidades.Peticion;
 import org.example.entidades.Respuesta;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 /**
  * Clase con métodos para utilizar el bot de Telegram
@@ -150,5 +160,47 @@ public class BotUtils {
         }
     }
 
-    
+    public ArrayList<Festivos> Festivos() throws IOException, ParserConfigurationException, SAXException {
+
+        File xmlFestivos = new File("Festivos.xml");
+        ArrayList<Festivos> arrayFestivo = new ArrayList<>();
+
+        String texto = "";
+        DocumentBuilderFactory fabrica = DocumentBuilderFactory.newInstance();
+        DocumentBuilder creador = fabrica.newDocumentBuilder();
+        Document doc = creador.parse(xmlFestivos);
+
+        doc.getDocumentElement().normalize();
+        NodeList listaFestivos = doc.getElementsByTagName("Mes");
+
+        for (int i = 0; i < listaFestivos.getLength(); i++) {
+            Node nNode = listaFestivos.item(i);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element ele = (Element) nNode;
+
+                Node node1 = ele.getElementsByTagName("Nombre").item(0);
+                String valNombre = (node1 != null) ? node1.getTextContent() : null;
+
+                Node node2 = ele.getElementsByTagName("Autonomico").item(0);
+                String valAut = (node1 != null) ? node1.getTextContent() : null;
+
+                Node node3 = ele.getElementsByTagName("Nacional").item(0);
+                String valNac = (node1 != null) ? node1.getTextContent() : null;
+
+                Festivos festivo = new Festivos();
+                festivo.setNombre(valNombre);
+                festivo.setAutonomico(valAut);
+                festivo.setNacional(valNac);
+
+                arrayFestivo.add(festivo);
+
+            }
+
+
+        }
+        return arrayFestivo;
+
+
+    }
+
 }
